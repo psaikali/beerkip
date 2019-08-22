@@ -47,7 +47,7 @@ class TopBar extends Component {
 	/**
 	 * Render a single clickable button with icon
 	 */
-	renderIcon = icon => {
+	renderIcon = (icon, isRight = false) => {
 		if (!icon) {
 			return null;
 		}
@@ -73,16 +73,30 @@ class TopBar extends Component {
 				break;
 		}
 
+		const Wrapper = isRight ? Right : Left;
+
 		return (
-			<Button
-				transparent
-				onPress={() => {
-					this.handleIconPress(icon);
-				}}
-			>
-				<Icon name={iconName} />
-			</Button>
+			<Wrapper>
+				<Button
+					transparent
+					onPress={() => {
+						this.handleIconPress(icon);
+					}}
+				>
+					<Icon name={iconName} />
+				</Button>
+			</Wrapper>
 		);
+	};
+
+	getTitle = () => {
+		const { navigation } = this.props;
+
+		if (navigation.state.routeName === "BeerDetails") {
+			const beer = navigation.getParam("beer", null);
+			return beer.name;
+		}
+		return this.props.title;
 	};
 
 	render() {
@@ -90,11 +104,11 @@ class TopBar extends Component {
 
 		return (
 			<Header noShadow>
-				<Left>{this.renderIcon(leftActionIcon)}</Left>
+				{this.renderIcon(leftActionIcon, false)}
 				<Body>
-					<Title>{this.props.title}</Title>
+					<Title>{this.getTitle()}</Title>
 				</Body>
-				<Right>{this.renderIcon(rightActionIcon)}</Right>
+				{this.renderIcon(rightActionIcon, true)}
 			</Header>
 		);
 	}
