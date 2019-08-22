@@ -9,7 +9,4 @@ export default (STYLES = StyleSheet.create({
 		marginTop: 5,
 		marginBottom: 15,
 	},
-	formButtonCentered: {
-		textAlign: "center",
-	},
 }));
