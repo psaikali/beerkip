@@ -5,4 +5,11 @@ export default (STYLES = StyleSheet.create({
 		paddingVertical: 25,
 		paddingHorizontal: 20,
 	},
+	formWrapper: {
+		marginTop: 5,
+		marginBottom: 15,
+	},
+	formButtonCentered: {
+		textAlign: "center",
+	},
 }));
