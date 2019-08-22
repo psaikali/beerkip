@@ -10,6 +10,9 @@ import COLORS from "../../utils/colors";
 class Login extends Component {
 	handleLoginFormSubmit = values => {
 		console.log(values);
+
+		// For now, fake Login Success and navigate to BeersList.
+		this.props.navigation.navigate("BeersList");
 	};
 
 	render() {
@@ -22,17 +25,6 @@ class Login extends Component {
 						<H3>Login</H3>
 						<LoginForm onSubmit={this.handleLoginFormSubmit} />
 					</View>
-
-					<Button
-						bordered
-						light
-						small
-						onPress={() => {
-							this.props.navigation.navigate("BeersList");
-						}}
-					>
-						<Text>Go to app</Text>
-					</Button>
 				</View>
 				<Text style={styles.credits}>
 					An app by Pierre Saïkali — www.saika.li
