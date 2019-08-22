@@ -94,8 +94,12 @@ class TopBar extends Component {
 
 		if (navigation.state.routeName === "BeerDetails") {
 			const beer = navigation.getParam("beer", null);
-			return beer.name;
+
+			if (beer) {
+				return beer.name;
+			}
 		}
+
 		return this.props.title;
 	};
 
