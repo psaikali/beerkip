@@ -1,6 +1,7 @@
 import { createStore, combineReducers, compose, applyMiddleware } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
 import FilesystemStorage from "redux-persist-filesystem-storage";
+import { reducer as formReducer } from "redux-form";
 
 import beersReducer from "./reducers/beers";
 // import appReducer from "./reducers/app";
@@ -9,10 +10,11 @@ import beersReducer from "./reducers/beers";
 const persistConfig = {
 	key: "brkp",
 	storage: FilesystemStorage,
-	//blacklist: ["form"]
+	blacklist: ["form"],
 };
 
 const rootReducer = combineReducers({
+	form: formReducer,
 	beers: beersReducer,
 	// app: appReducer,
 	// categories: categoriesReducer,
