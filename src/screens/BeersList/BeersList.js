@@ -13,6 +13,9 @@ import {
 	Container,
 	Content,
 } from "native-base";
+
+import BeerCard from "../../components/BeerCard/BeerCard";
+
 import { connect } from "react-redux";
 import COLORS from "../../utils/colors";
 
@@ -31,14 +34,10 @@ class BeersList extends Component {
 					{this.props.beers.length > 0 ? (
 						<FlatList
 							data={this.props.beers}
-							keyExtractor={(beer, index) =>
-								`${beer.uid}-${index}`
-							}
+							keyExtractor={(beer, index) => beer.uid}
 							renderItem={({ item }) => (
-								<ListItem
-									thumbnail
-									key={item.uid}
-									button
+								<BeerCard
+									item={item}
 									onPress={() => {
 										this.props.navigation.navigate(
 											"BeerDetails",
@@ -47,24 +46,7 @@ class BeersList extends Component {
 											}
 										);
 									}}
-								>
-									<Left>
-										<Thumbnail square source={item.photo} />
-									</Left>
-									<Body>
-										<Text>{item.name}</Text>
-										<Text note numberOfLines={1}>
-											{item.comment}
-										</Text>
-									</Body>
-									<Right>
-										<View style={styles.beerRating}>
-											<Text style={styles.beerRatingText}>
-												{item.rating}
-											</Text>
-										</View>
-									</Right>
-								</ListItem>
+								/>
 							)}
 						/>
 					) : (
@@ -101,16 +83,6 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		bottom: 30,
 		right: 30,
-	},
-	beerRating: {
-		backgroundColor: COLORS.gray,
-		borderRadius: 50,
-		width: 30,
-	},
-	beerRatingText: {
-		fontSize: 9,
-		textAlign: "center",
-		paddingVertical: 9,
 	},
 });
 
