@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { Button, H3, Text } from "native-base";
 
+import FadeSlide from "../../animations/FadeSlide/FadeSlide";
 import LoginForm from "../../components/LoginForm/LoginForm";
 
 import logo from "../../assets/images/beerkip-logo-white.png";
@@ -25,12 +26,16 @@ class Login extends Component {
 		return (
 			<View style={styles.screenContentWrapper}>
 				<View style={styles.contentBox}>
-					<Image source={logo} style={styles.logo} />
+					<FadeSlide top={-75}>
+						<Image source={logo} style={styles.logo} />
+					</FadeSlide>
 
-					<View style={styles.loginFormBox}>
-						<H3>Login</H3>
-						<LoginForm onSubmit={this.handleLoginFormSubmit} />
-					</View>
+					<FadeSlide delay={150}>
+						<View style={styles.loginFormBox}>
+							<H3>Login</H3>
+							<LoginForm onSubmit={this.handleLoginFormSubmit} />
+						</View>
+					</FadeSlide>
 				</View>
 				<TouchableOpacity
 					onPress={() => {
@@ -41,7 +46,7 @@ class Login extends Component {
 					style={styles.creditsContainer}
 				>
 					<Text style={styles.creditsText}>
-						An app by Pierre Saïkali — www.saika.li
+						Made by Pierre Saïkali — www.saika.li
 					</Text>
 				</TouchableOpacity>
 			</View>
@@ -60,8 +65,9 @@ const styles = StyleSheet.create({
 	},
 	logo: {
 		height: undefined,
-		width: "100%",
+		width: "80%",
 		aspectRatio: 507 / 102,
+		marginLeft: "10%",
 		marginBottom: 30,
 	},
 	loginFormBox: {
