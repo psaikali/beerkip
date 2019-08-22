@@ -6,8 +6,9 @@ import {
 	createSwitchNavigator,
 	createAppContainer,
 } from "react-navigation";
+import { PersistGate } from "redux-persist/integration/react";
 
-import configureStore from "./src/store/configureStore";
+import { store, persistor } from "./src/store/configureStore";
 import { addBeer } from "./src/store/actions/beers";
 import dummyData from "./src/utils/dummyData";
 
@@ -103,23 +104,15 @@ const AppContainer = createAppContainer(
 	)
 );
 
-/**
- * Get our Redux store object
- */
-const store = configureStore();
-
-/**
- * Temporary add fake beers
- */
-dummyData.beers.map(beer => store.dispatch(addBeer(beer)));
-
 class App extends Component {
 	render() {
 		return (
 			<Provider store={store}>
-				<Root>
-					<AppContainer />
-				</Root>
+				<PersistGate loading={null} persistor={persistor}>
+					<Root>
+						<AppContainer />
+					</Root>
+				</PersistGate>
 			</Provider>
 		);
 	}
