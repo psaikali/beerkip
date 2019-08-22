@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, Image, StyleSheet } from "react-native";
+import {
+	View,
+	Image,
+	Linking,
+	TouchableOpacity,
+	StyleSheet,
+} from "react-native";
 import { Button, H3, Text } from "native-base";
 
 import LoginForm from "../../components/LoginForm/LoginForm";
@@ -26,9 +32,18 @@ class Login extends Component {
 						<LoginForm onSubmit={this.handleLoginFormSubmit} />
 					</View>
 				</View>
-				<Text style={styles.credits}>
-					An app by Pierre Saïkali — www.saika.li
-				</Text>
+				<TouchableOpacity
+					onPress={() => {
+						Linking.openURL(
+							"https://saika.li/?utm_source=beerkip&utm_medium=app"
+						);
+					}}
+					style={styles.creditsContainer}
+				>
+					<Text style={styles.creditsText}>
+						An app by Pierre Saïkali — www.saika.li
+					</Text>
+				</TouchableOpacity>
 			</View>
 		);
 	}
@@ -57,11 +72,13 @@ const styles = StyleSheet.create({
 		marginBottom: 30,
 		elevation: 25,
 	},
-	credits: {
+	creditsContainer: {
 		position: "absolute",
 		bottom: 20,
 		left: 5,
 		right: 5,
+	},
+	creditsText: {
 		textAlign: "center",
 		color: "rgba(255,255,255,.25)",
 		fontSize: 10,
