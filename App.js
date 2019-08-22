@@ -17,6 +17,7 @@ import Login from "./src/screens/Login/Login";
 import BeersList from "./src/screens/BeersList/BeersList";
 import BeerAdd from "./src/screens/BeerAdd/BeerAdd";
 import Profile from "./src/screens/Profile/Profile";
+import BeerDetails from "./src/screens/BeerDetails/BeerDetails";
 
 /**
  * Our LoginStack which contains only the Login screen
@@ -43,6 +44,18 @@ const AppStack = createStackNavigator({
 					title="My beers"
 					leftActionIcon="searchBeers"
 					rightActionIcon="seeProfile"
+				/>
+			),
+		}),
+	},
+	BeerDetails: {
+		screen: BeerDetails,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<TopBar
+					navigation={navigation}
+					title="Single beer"
+					leftActionIcon="goBack"
 				/>
 			),
 		}),

@@ -6,6 +6,7 @@ import {
 	Icon,
 	ListItem,
 	Thumbnail,
+	H3,
 	Left,
 	Body,
 	Right,
@@ -27,14 +28,9 @@ class BeersList extends Component {
 		return (
 			<Container>
 				<Content>
-					{this.props.beers && (
+					{this.props.beers.length > 0 ? (
 						<FlatList
-							data={[
-								...this.props.beers,
-								...this.props.beers,
-								...this.props.beers,
-								...this.props.beers,
-							]}
+							data={this.props.beers}
 							keyExtractor={(beer, index) =>
 								`${beer.uid}-${index}`
 							}
@@ -43,7 +39,14 @@ class BeersList extends Component {
 									thumbnail
 									key={item.uid}
 									button
-									onPress={() => {}}
+									onPress={() => {
+										this.props.navigation.navigate(
+											"BeerDetails",
+											{
+												beer: item,
+											}
+										);
+									}}
 								>
 									<Left>
 										<Thumbnail square source={item.photo} />
@@ -64,6 +67,17 @@ class BeersList extends Component {
 								</ListItem>
 							)}
 						/>
+					) : (
+						<ScreenContent>
+							<H3>Your beer shelf is empty!</H3>
+							<Text>
+								Create your first beer by clicking the{" "}
+								<Text style={{ fontWeight: "bold" }}>
+									"Add beer"
+								</Text>{" "}
+								button below.
+							</Text>
+						</ScreenContent>
 					)}
 				</Content>
 
