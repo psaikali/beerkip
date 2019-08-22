@@ -37,6 +37,7 @@ const AppStack = createStackNavigator({
 					navigation={navigation}
 					title="My beers"
 					leftActionIcon="searchBeers"
+					rightActionIcon="seeProfile"
 				/>
 			),
 		}),

@@ -16,9 +16,37 @@ class TopBar extends Component {
 			case "searchBeers":
 				Alert.alert("Search form coming soon...");
 				break;
+
+			case "seeProfile":
+				this.props.navigation.navigate("Profile");
+				break;
+
+			case "logout":
+				Alert.alert(
+					"Please don't go...",
+					"Are you sure that you want to log out?",
+					[
+						{
+							text: "Yes, log me out",
+							onPress: () => {
+								this.props.navigation.navigate("Login");
+							},
+						},
+						{
+							text: "Cancel",
+							onPress: () => {},
+							style: "cancel",
+						},
+					],
+					{ cancelable: false }
+				);
+				break;
 		}
 	};
 
+	/**
+	 * Render a single clickable button with icon
+	 */
 	renderIcon = icon => {
 		if (!icon) {
 			return null;
@@ -34,6 +62,14 @@ class TopBar extends Component {
 
 			case "searchBeers":
 				iconName = "search";
+				break;
+
+			case "seeProfile":
+				iconName = "person";
+				break;
+
+			case "logout":
+				iconName = "power";
 				break;
 		}
 
@@ -64,6 +100,8 @@ class TopBar extends Component {
 	}
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	// TODO
+});
 
 export default TopBar;
