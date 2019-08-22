@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import { Root } from "native-base";
+import { Provider } from "react-redux";
 import {
 	createStackNavigator,
 	createSwitchNavigator,
 	createAppContainer,
 } from "react-navigation";
+
+import configureStore from "./src/store/configureStore";
+import { addBeer } from "./src/store/actions/beers";
+import dummyData from "./src/utils/dummyData";
 
 import TopBar from "./src/components/TopBar/TopBar";
 import Loading from "./src/screens/Loading/Loading";
@@ -85,12 +90,24 @@ const AppContainer = createAppContainer(
 	)
 );
 
+/**
+ * Get our Redux store object
+ */
+const store = configureStore();
+
+/**
+ * Temporary add fake beers
+ */
+dummyData.beers.map(beer => store.dispatch(addBeer(beer)));
+
 class App extends Component {
 	render() {
 		return (
-			<Root>
-				<AppContainer />
-			</Root>
+			<Provider store={store}>
+				<Root>
+					<AppContainer />
+				</Root>
+			</Provider>
 		);
 	}
 }
