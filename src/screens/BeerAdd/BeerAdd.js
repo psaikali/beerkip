@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { View } from "react-native";
-import { Container, Content, Text } from "native-base";
+import { Text } from "native-base";
+
+import ScreenContent from "../../components/ScreenContent/ScreenContent";
 
 class BeerAdd extends Component {
 	render() {
 		return (
-			<Container>
-				<Content>
-					<Text>Beer add</Text>
-				</Content>
-			</Container>
+			<ScreenContent>
+				<Text>Beer add</Text>
+			</ScreenContent>
 		);
 	}
 }

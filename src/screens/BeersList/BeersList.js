@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { View } from "react-native";
-import { Container, Content, Button, Text, Icon } from "native-base";
+import { Button, Text, Icon } from "native-base";
+
+import ScreenContent from "../../components/ScreenContent/ScreenContent";
 
 class BeersList extends Component {
 	/**
@@ -12,19 +14,17 @@ class BeersList extends Component {
 
 	render() {
 		return (
-			<Container>
-				<Content>
-					<Text>Beers list</Text>
-					<Button
-						rounded
-						bordered
-						onPress={this.handleAddBeerButtonPress}
-					>
-						<Icon name="add" />
-						<Text>Add a beer</Text>
-					</Button>
-				</Content>
-			</Container>
+			<ScreenContent>
+				<Text>Beers list</Text>
+				<Button
+					rounded
+					bordered
+					onPress={this.handleAddBeerButtonPress}
+				>
+					<Icon name="add" />
+					<Text>Add a beer</Text>
+				</Button>
+			</ScreenContent>
 		);
 	}
 }
