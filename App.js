@@ -104,6 +104,11 @@ const AppContainer = createAppContainer(
 	)
 );
 
+/**
+ * Temporary add fake beers
+ */
+//dummyData.beers.map(beer => store.dispatch(addBeer(beer)));
+
 class App extends Component {
 	render() {
 		return (
