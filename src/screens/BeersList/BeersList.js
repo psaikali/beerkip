@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-	beers: state.beers,
+	beers: state.beers.sort((a, b) => b.createdAt - a.createdAt),
 });
 
 export default connect(mapStateToProps)(BeersList);
