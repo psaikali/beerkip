@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, ImageBackground, StyleSheet } from "react-native";
+import { View, ImageBackground, StyleSheet, Alert } from "react-native";
 import { Button, Text, Icon, Container, Content, Fab } from "native-base";
 import { connect } from "react-redux";
 
@@ -37,11 +37,28 @@ class BeerDetails extends Component {
 	 * When we click on the Delete icon
 	 */
 	handleIconDeletePress = () => {
-		// First, delete the beer.
-		this.props.deleteBeer(this.state.beer.uid);
+		Alert.alert(
+			"Deleting a beer",
+			`Are you sure that you want to delete ${this.state.beer.name}?`,
+			[
+				{
+					text: "Yes, delete it",
+					onPress: () => {
+						// First, delete the beer.
+						this.props.deleteBeer(this.state.beer.uid);
 
-		// Then, redirect back to BeersList.
-		this.props.navigation.navigate("BeersList");
+						// Then, redirect back to BeersList.
+						this.props.navigation.navigate("BeersList");
+					},
+				},
+				{
+					text: "Cancel",
+					onPress: () => {},
+					style: "cancel",
+				},
+			],
+			{ cancelable: true }
+		);
 	};
 
 	renderSubMenu = () => {
