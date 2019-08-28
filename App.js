@@ -9,8 +9,6 @@ import {
 import { PersistGate } from "redux-persist/integration/react";
 
 import { store, persistor } from "./src/store/configureStore";
-import { addBeer } from "./src/store/actions/beers";
-import dummyData from "./src/utils/dummyData";
 
 import TopBar from "./src/components/TopBar/TopBar";
 import Loading from "./src/screens/Loading/Loading";
@@ -105,10 +103,8 @@ const AppContainer = createAppContainer(
 );
 
 /**
- * Temporary add fake beers
+ * Our main App parent component
  */
-//dummyData.beers.map(beer => store.dispatch(addBeer(beer)));
-
 class App extends Component {
 	render() {
 		return (

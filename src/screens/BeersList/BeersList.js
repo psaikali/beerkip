@@ -14,6 +14,9 @@ import {
 	Content,
 } from "native-base";
 
+import { addBeer } from "../../store/actions/beers";
+import dummyData from "../../utils/dummyData";
+
 import BeerCard from "../../components/BeerCard/BeerCard";
 
 import { connect } from "react-redux";
@@ -25,6 +28,15 @@ class BeersList extends Component {
 	 */
 	handleAddBeerButtonPress = () => {
 		this.props.navigation.navigate("BeerAdd");
+	};
+
+	/**
+	 * Temporary add fake beers
+	 */
+	handleLoadDummyDataButton = () => {
+		[...dummyData.beers, ...dummyData.beers, ...dummyData.beers].map(beer =>
+			this.props.dispatch(addBeer(beer))
+		);
 	};
 
 	render() {
@@ -59,6 +71,17 @@ class BeersList extends Component {
 								</Text>{" "}
 								button below.
 							</Text>
+							<Button
+								rounded
+								secondary
+								iconLeft
+								dark
+								onPress={this.handleLoadDummyDataButton}
+								style={styles.dummyDataButton}
+							>
+								<Icon name="refresh" />
+								<Text>Load dummy beers</Text>
+							</Button>
 						</ScreenContent>
 					)}
 				</Content>
@@ -83,6 +106,10 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		bottom: 30,
 		right: 30,
+	},
+	dummyDataButton: {
+		marginTop: 10,
+		justifyContent: "center",
 	},
 });
 
