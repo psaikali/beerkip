@@ -14,6 +14,7 @@ import dummyBeerImage from "../../assets/images/dummy/beer3.png";
 class BeerAdd extends Component {
 	handleBeerAddFormSubmit = values => {
 		UUIDGenerator.getRandomUUID().then(uid => {
+			// First, add the beer.
 			this.props.addBeer({
 				uid: uid,
 				createdAt: Date.now(),
@@ -22,6 +23,9 @@ class BeerAdd extends Component {
 				photo: dummyBeerImage,
 				...values,
 			});
+
+			// Then, redirect back to BeersList.
+			this.props.navigation.navigate("BeersList");
 		});
 	};
 
