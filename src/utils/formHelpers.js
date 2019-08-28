@@ -6,6 +6,9 @@ export const required = value =>
 export const number = value =>
 	value && isNaN(Number(value)) ? "Please enter a numeric value." : undefined;
 
+export const positive = value =>
+	value && value < 0 ? "Please enter a positive value." : undefined;
+
 export const integer = value =>
 	value &&
 	!(

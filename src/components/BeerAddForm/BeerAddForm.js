@@ -5,7 +5,15 @@ import { Button, Text } from "native-base";
 
 import TextInput from "../../fields/TextInput/TextInput";
 
-import { required, number, floatWithPoint } from "../../utils/formHelpers";
+import {
+	required,
+	number,
+	floatWithPoint,
+	warnMinMax,
+	positive,
+} from "../../utils/formHelpers";
+
+const abvWarning = value => warnMinMax(value, 0, 20);
 
 class BeerAddForm extends Component {
 	render() {
@@ -38,8 +46,9 @@ class BeerAddForm extends Component {
 						keyboardType="numeric"
 						autoCorrect={false}
 						component={TextInput}
-						validate={[required, number]}
+						validate={[required, number, positive]}
 						normalize={floatWithPoint}
+						warn={abvWarning}
 					/>
 					<Field
 						name="aromas"
