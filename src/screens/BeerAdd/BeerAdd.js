@@ -33,7 +33,16 @@ class BeerAdd extends Component {
 		return (
 			<ScreenContent>
 				<H3>New beer</H3>
-				<BeerAddForm onSubmit={this.handleBeerAddFormSubmit} />
+				<BeerAddForm
+					onSubmit={this.handleBeerAddFormSubmit}
+					initialValues={{
+						aromas: [
+							{
+								aroma: "",
+							},
+						],
+					}}
+				/>
 			</ScreenContent>
 		);
 	}

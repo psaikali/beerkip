@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { reduxForm, Field } from "redux-form";
-import { View } from "react-native";
-import { Button, Text } from "native-base";
+import { reduxForm, Field, FieldArray } from "redux-form";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { Button, Text, Icon } from "native-base";
 
 import TextInput from "../../fields/TextInput/TextInput";
 
@@ -13,9 +13,48 @@ import {
 	positive,
 } from "../../utils/formHelpers";
 
+import COLORS from "../../utils/colors";
+
 const abvWarning = value => warnMinMax(value, 0, 20);
 
 class BeerAddForm extends Component {
+	/**
+	 * Render the "Aromas" repeatable fields
+	 */
+	renderAromasFields = ({ fields, meta: { error } }) => {
+		return (
+			<View>
+				{fields.map((aroma, index) => (
+					<View key={index} style={styles.aromaRow}>
+						<Field
+							name={`${aroma}.aroma`}
+							label="Aroma"
+							component={TextInput}
+							style={styles.aromaInput}
+						/>
+						<TouchableOpacity
+							onPress={() => fields.remove(index)}
+							style={styles.aromaRemove}
+						>
+							<Icon name="trash" style={styles.aromaRemoveIcon} />
+						</TouchableOpacity>
+					</View>
+				))}
+				<Button
+					light
+					iconLeft
+					small
+					rounded
+					onPress={() => fields.push({ aroma: "" })}
+					style={styles.aromaAdd}
+				>
+					<Icon name="add" />
+					<Text>Add aroma</Text>
+				</Button>
+			</View>
+		);
+	};
+
 	render() {
 		return (
 			<View>
@@ -50,11 +89,9 @@ class BeerAddForm extends Component {
 						normalize={floatWithPoint}
 						warn={abvWarning}
 					/>
-					<Field
+					<FieldArray
 						name="aromas"
-						label="Aromas"
-						autoCorrect={false}
-						component={TextInput}
+						component={this.renderAromasFields}
 					/>
 					<Field
 						name="comment"
@@ -77,6 +114,36 @@ class BeerAddForm extends Component {
 		);
 	}
 }
+
+const styles = StyleSheet.create({
+	aromaRow: {
+		flexDirection: "row",
+	},
+	aromaInput: {
+		flexBasis: "90%",
+	},
+	aromaRemove: {
+		justifyContent: "center",
+		alignSelf: "center",
+		flexBasis: "10%",
+		height: 40,
+		borderRadius: 5,
+		borderWidth: 1,
+		borderColor: COLORS.gray,
+	},
+	aromaRemoveIcon: {
+		fontSize: 18,
+		color: COLORS.orange,
+		justifyContent: "center",
+		textAlign: "center",
+	},
+	aromaAdd: {
+		marginTop: 5,
+		marginBottom: 5,
+		width: 150,
+		marginLeft: "auto",
+	},
+});
 
 export default reduxForm({
 	form: "beerAdd",
