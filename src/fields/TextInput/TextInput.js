@@ -9,6 +9,7 @@ class TextInput extends Component {
 	render() {
 		const { input, meta, label, ...inputProps } = this.props;
 
+		console.log(inputProps);
 		return (
 			<FieldWrapper {...this.props}>
 				<Item error={meta.touched && meta.error}>
@@ -28,7 +29,9 @@ class TextInput extends Component {
 						onChangeText={input.onChange}
 						onBlur={input.onBlur}
 						onFocus={input.onFocus}
-						//value={input.value}
+						value={
+							inputProps.hasNormalize ? input.value : undefined
+						}
 					/>
 				</Item>
 			</FieldWrapper>

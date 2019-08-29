@@ -11,6 +11,7 @@ import {
 	floatWithPoint,
 	warnMinMax,
 	positive,
+	rating,
 } from "../../utils/formHelpers";
 
 import COLORS from "../../utils/colors";
@@ -87,6 +88,7 @@ class BeerAddForm extends Component {
 						component={TextInput}
 						validate={[required, number, positive]}
 						normalize={floatWithPoint}
+						hasNormalize={true}
 						warn={abvWarning}
 					/>
 					<FieldArray
@@ -103,9 +105,12 @@ class BeerAddForm extends Component {
 					<Field
 						name="rating"
 						label="Rating"
+						keyboardType="numeric"
 						autoCorrect={false}
 						component={TextInput}
-						validate={[required]}
+						validate={[required, number, positive, rating]}
+						normalize={floatWithPoint}
+						hasNormalize={true}
 					/>
 				</View>
 				<Button full warning rounded onPress={this.props.handleSubmit}>
