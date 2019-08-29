@@ -28,7 +28,7 @@ class TextInput extends Component {
 						onChangeText={input.onChange}
 						onBlur={input.onBlur}
 						onFocus={input.onFocus}
-						value={input.value.toString()}
+						//value={input.value}
 					/>
 				</Item>
 			</FieldWrapper>
