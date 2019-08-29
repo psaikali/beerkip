@@ -97,6 +97,7 @@ class BeerAddForm extends Component {
 						name="comment"
 						label="Comment"
 						autoCorrect={true}
+						multiline={true}
 						component={TextInput}
 					/>
 					<Field
