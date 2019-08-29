@@ -29,7 +29,8 @@ if (__DEV__) {
 }
 
 export const store = createStore(
-	persistedReducer
+	persistedReducer,
+	composeEnhancers()
 	//composeEnhancers(applyMiddleware(thunk))
 );
 
