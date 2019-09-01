@@ -2,9 +2,10 @@ import { createStore, combineReducers, compose, applyMiddleware } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
 import FilesystemStorage from "redux-persist-filesystem-storage";
 import { reducer as formReducer } from "redux-form";
+import thunk from "redux-thunk";
 
 import beersReducer from "./reducers/beers";
-// import appReducer from "./reducers/app";
+import appReducer from "./reducers/app";
 // import categoriesReducer from "./reducers/categories";
 
 const persistConfig = {
@@ -16,7 +17,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
 	form: formReducer,
 	beers: beersReducer,
-	// app: appReducer,
+	app: appReducer,
 	// categories: categoriesReducer,
 });
 
@@ -30,8 +31,7 @@ if (__DEV__) {
 
 export const store = createStore(
 	persistedReducer,
-	composeEnhancers()
-	//composeEnhancers(applyMiddleware(thunk))
+	composeEnhancers(applyMiddleware(thunk))
 );
 
 export const persistor = persistStore(store);
