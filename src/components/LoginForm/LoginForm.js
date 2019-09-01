@@ -6,8 +6,7 @@ import { Button, Text } from "native-base";
 import TextInput from "../../fields/TextInput/TextInput";
 
 import COLORS from "../../utils/colors";
-
-//import { required } from "../../utils/validation";
+import { required } from "../../utils/formHelpers";
 
 class LoginForm extends Component {
 	render() {
@@ -15,28 +14,34 @@ class LoginForm extends Component {
 			<View>
 				<View style={STYLES.formWrapper}>
 					<Field
-						name="login"
-						label="Identifiant"
+						name="username"
+						label="Username or e-mail"
 						textContentType="username"
 						autoCorrect={false}
 						autoCapitalize="none"
 						component={TextInput}
 						icon="person"
-						//validate={[required]}
+						validate={[required]}
 					/>
 					<Field
 						name="password"
-						label="Mot de passe"
+						label="Password"
 						textContentType="password"
 						secureTextEntry={true}
 						autoCorrect={false}
 						autoCapitalize="none"
 						component={TextInput}
 						icon="key"
-						//validate={[required]}
+						validate={[required]}
 					/>
 				</View>
-				<Button full warning rounded onPress={this.props.handleSubmit}>
+				<Button
+					full
+					warning
+					rounded
+					onPress={this.props.handleSubmit}
+					disabled={this.props.disabled}
+				>
 					<Text>Log in</Text>
 				</Button>
 			</View>
