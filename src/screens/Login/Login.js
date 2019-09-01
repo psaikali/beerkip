@@ -3,24 +3,33 @@ import {
 	View,
 	Image,
 	Linking,
+	ActivityIndicator,
 	TouchableOpacity,
 	StyleSheet,
 } from "react-native";
 import { Button, H3, Text } from "native-base";
+import { connect } from "react-redux";
 
 import FadeSlide from "../../animations/FadeSlide/FadeSlide";
 import LoginForm from "../../components/LoginForm/LoginForm";
 
 import logo from "../../assets/images/beerkip-logo-white.png";
 import COLORS from "../../utils/colors";
+import { login } from "../../store/actions/app";
 
 class Login extends Component {
 	handleLoginFormSubmit = values => {
-		console.log(values);
-
-		// For now, fake Login Success and navigate to BeersList.
-		this.props.navigation.navigate("BeersList");
+		this.props.login(values.username, values.password);
 	};
+
+	componentDidUpdate() {
+		const { user } = this.props;
+
+		// We have a user and a token, so user just logged in.
+		if (user && user.token) {
+			this.props.navigation.navigate("BeersList");
+		}
+	}
 
 	render() {
 		return (
@@ -33,7 +42,25 @@ class Login extends Component {
 					<FadeSlide delay={150}>
 						<View style={styles.loginFormBox}>
 							<H3>Login</H3>
-							<LoginForm onSubmit={this.handleLoginFormSubmit} />
+							<LoginForm
+								onSubmit={this.handleLoginFormSubmit}
+								disabled={this.props.loading}
+							/>
+							{this.props.loading && (
+								<View style={styles.loadingContainer}>
+									<ActivityIndicator
+										animating={true}
+										hidesWhenStopped={false}
+										size="large"
+										color={COLORS.purple}
+									/>
+								</View>
+							)}
+							{this.props.error && (
+								<Text style={styles.errorMessage}>
+									{this.props.error}
+								</Text>
+							)}
 						</View>
 					</FadeSlide>
 				</View>
@@ -89,6 +116,36 @@ const styles = StyleSheet.create({
 		color: "rgba(255,255,255,.25)",
 		fontSize: 10,
 	},
+	loadingContainer: {
+		position: "absolute",
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		backgroundColor: "rgba(255,255,255,.85)",
+		justifyContent: "center",
+	},
+	errorMessage: {
+		fontSize: 11,
+		marginTop: 20,
+		fontStyle: "italic",
+		color: COLORS.red,
+	},
 });
 
-export default Login;
+const mapStateToProps = state => ({
+	user: state.app.user,
+	loading: state.app.ui.loading,
+	error: state.app.ui.messages.login,
+});
+
+const mapDispatchToProps = dispatch => {
+	return {
+		login: (email, password) => dispatch(login(email, password)),
+	};
+};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Login);
