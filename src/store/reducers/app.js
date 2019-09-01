@@ -4,14 +4,13 @@ import {
 	LOGOUT,
 	START_LOADING,
 	STOP_LOADING,
+	CLEAR_MESSAGES,
 } from "../actions/actionTypes";
 
 const initialState = {
 	ui: {
 		loading: false,
-		messages: {
-			login: null,
-		},
+		messages: {},
 	},
 	user: null,
 };
@@ -64,6 +63,16 @@ const reducer = (state = initialState, action) => {
 			return {
 				...state,
 				user: { ...initialState.user },
+			};
+		}
+
+		case CLEAR_MESSAGES: {
+			return {
+				...state,
+				ui: {
+					...state.ui,
+					messages: {},
+				},
 			};
 		}
 

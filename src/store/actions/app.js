@@ -6,6 +6,7 @@ import {
 	LOGOUT,
 	START_LOADING,
 	STOP_LOADING,
+	CLEAR_MESSAGES,
 } from "./actionTypes";
 
 /**
@@ -111,5 +112,14 @@ export const loginError = message => {
 export const logout = () => {
 	return {
 		type: LOGOUT,
+	};
+};
+
+/**
+ * Clear UI (error) messages, so that we don't display them forever
+ */
+export const clearMessages = () => {
+	return {
+		type: CLEAR_MESSAGES,
 	};
 };
