@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Alert, StyleSheet } from "react-native";
+import { connect } from "react-redux";
+
 import { Header, Button, Title, Left, Right, Body, Icon } from "native-base";
+import { logout } from "../../store/actions/app";
 
 class TopBar extends Component {
 	/**
@@ -29,6 +32,7 @@ class TopBar extends Component {
 						{
 							text: "Yes, log me out",
 							onPress: () => {
+								this.props.logout();
 								this.props.navigation.navigate("Login");
 							},
 						},
@@ -122,4 +126,13 @@ const styles = StyleSheet.create({
 	// TODO
 });
 
-export default TopBar;
+const mapDispatchToProps = dispatch => {
+	return {
+		logout: () => dispatch(logout()),
+	};
+};
+
+export default connect(
+	null,
+	mapDispatchToProps
+)(TopBar);
