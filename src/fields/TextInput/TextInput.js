@@ -11,7 +11,7 @@ class TextInput extends Component {
 
 		return (
 			<FieldWrapper {...this.props}>
-				<Item error={meta.touched && meta.error}>
+				<Item error={meta.touched && meta.error ? true : false}>
 					{this.props.icon && (
 						<Icon
 							name={this.props.icon}
