@@ -19,6 +19,7 @@ class BeerAdd extends Component {
 				uid: uid,
 				author: this.props.user.id,
 				createdAt: Date.now(),
+				edited: true,
 				editedAt: null,
 				deletedAt: null,
 				photo: dummyBeerImage,
