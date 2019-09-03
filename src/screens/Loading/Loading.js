@@ -2,14 +2,15 @@ import React, { Component } from "react";
 import { View } from "react-native";
 import { Text } from "native-base";
 import { connect } from "react-redux";
-import { clearMessages } from "../../store/actions/app";
+import { clearMessages, stopLoading } from "../../store/actions/app";
 
 class Loading extends Component {
 	/**
 	 * Let's check if user is logged in, or not
 	 */
 	componentDidMount() {
-		// Let's also clear all UI (error) messages
+		// Let's reset the UI.
+		this.props.stopLoading();
 		this.props.clearMessages();
 
 		const isLoggedIn = this.props.user && this.props.user.token;
@@ -31,6 +32,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
 	return {
+		stopLoading: () => dispatch(stopLoading()),
 		clearMessages: () => dispatch(clearMessages()),
 	};
 };

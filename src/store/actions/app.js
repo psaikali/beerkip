@@ -53,8 +53,6 @@ export const login = (email, password) => {
 				dispatch(stopLoading());
 
 				if (response.status === 200) {
-					console.log(response.data);
-
 					dispatch(
 						loginSuccess({
 							token: response.data.token,
