@@ -24,7 +24,17 @@ const reducer = (state = initialState, action) => {
 		}
 
 		case DELETE_BEER: {
-			return state.filter(beer => beer.uid !== action.uid);
+			return state.map(beer => {
+				if (beer.uid === action.uid) {
+					return {
+						...beer,
+						deleted: true,
+						deletedAt: Date.now(),
+					};
+				} else {
+					return beer;
+				}
+			});
 		}
 
 		default: {

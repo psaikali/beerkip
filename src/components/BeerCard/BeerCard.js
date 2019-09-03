@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { ListItem, Body, Left, Right, Thumbnail } from "native-base";
 
-export default (BeerCard = ({ item, onPress }) => (
+export default BeerCard = ({ item, onPress }) => (
 	<ListItem thumbnail key={item.uid} button onPress={onPress}>
 		<Left>
 			<Thumbnail square source={item.photo} />
@@ -19,7 +19,7 @@ export default (BeerCard = ({ item, onPress }) => (
 			</View>
 		</Right>
 	</ListItem>
-));
+);
 
 const styles = StyleSheet.create({
 	beerRating: {
