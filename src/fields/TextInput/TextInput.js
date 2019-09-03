@@ -28,7 +28,9 @@ class TextInput extends Component {
 						onChangeText={input.onChange}
 						onBlur={input.onBlur}
 						onFocus={input.onFocus}
-						value={input.value}
+						value={
+							inputProps.hasNormalize ? input.value : undefined
+						}
 					/>
 				</Item>
 			</FieldWrapper>
