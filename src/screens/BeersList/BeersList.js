@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { View, FlatList, StyleSheet } from "react-native";
-import { Button, Text, Badge, Icon, H3, Container, Content } from "native-base";
+import { View, FlatList, ActivityIndicator, StyleSheet } from "react-native";
+import { Button, Text, Icon, H3, Container, Content } from "native-base";
+import NetInfo from "@react-native-community/netinfo";
 
 import { addBeer } from "../../store/actions/beers";
 import dummyData from "../../utils/dummyData";
@@ -12,6 +13,15 @@ import COLORS from "../../utils/colors";
 import { push } from "../../store/actions/app";
 
 class BeersList extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			appConnectionSubscription: null,
+			appConnectionIsConnected: false,
+		};
+	}
+
 	/**
 	 * When we click on the "Add a beer" button
 	 */
@@ -29,34 +39,79 @@ class BeersList extends Component {
 	};
 
 	/**
-	 * We want to possibly send data on the first load of the screen
+	 * Let's subscribe to the network connectivity status, to possibly send data to the server.
 	 */
 	componentDidMount() {
-		this.props.push();
+		this.appConnectionSubscription = NetInfo.addEventListener(
+			this.handleConnectionInfoChange
+		);
 	}
 
 	/**
-	 * We also want to send data anytime we got new/edited/deleted beers (this.props.beers comes from our connected Redux store)
+	 * When unmounting this screen, remove the NetInfo listener.
 	 */
-	componentDidUpdate() {
-		this.props.push();
+	componentWillUnmount() {
+		this.appConnectionSubscription && this.appConnectionSubscription();
 	}
 
+	/**
+	 * Update the component state to store connectivity status.
+	 */
+	handleConnectionInfoChange = state => {
+		this.setState(() => ({
+			appConnectionIsConnected: state.isConnected,
+		}));
+	};
+
+	/**
+	 * Display a title before the list of beers, along with a Sync button.
+	 */
 	renderBeersListTitle = () => {
 		const beersTotalCount = this.props.beers.length;
 		const beersToPushCount = this.props.beers.filter(beer => beer.edited)
 			.length;
 
 		return (
-			<View style={styles.beersListTitle}>
-				<H3>
-					{beersTotalCount} beer{beersTotalCount > 1 ? "s" : ""}
-				</H3>
-				{beersToPushCount > 0 && (
-					<Badge warning>
-						<Text>{beersToPushCount} to sync</Text>
-					</Badge>
-				)}
+			<View>
+				<View style={styles.beersListTitle}>
+					<H3>
+						{beersTotalCount} beer{beersTotalCount > 1 ? "s" : ""}
+					</H3>
+					{beersToPushCount > 0 && !this.props.loading && (
+						<Button
+							rounded
+							small
+							warning
+							iconLeft
+							onPress={this.props.push}
+							disabled={
+								this.props.loading ||
+								!this.state.appConnectionIsConnected
+							}
+						>
+							<Icon name="refresh" />
+							<Text>
+								Sync {beersToPushCount} item
+								{beersToPushCount > 1 ? "s" : ""}
+							</Text>
+						</Button>
+					)}
+					{beersToPushCount > 0 && this.props.loading && (
+						<ActivityIndicator
+							animating={true}
+							hidesWhenStopped={false}
+							size={30}
+							color={COLORS.orange}
+						/>
+					)}
+				</View>
+				{beersToPushCount > 0 &&
+					!this.state.appConnectionIsConnected && (
+						<Text style={styles.appNeedsInternetMessage}>
+							Please connect your device to the Internet to sync
+							your latest data.
+						</Text>
+					)}
 			</View>
 		);
 	};
@@ -139,6 +194,16 @@ const styles = StyleSheet.create({
 	beersToPushCount: {
 		fontSize: 10,
 	},
+	appNeedsInternetMessage: {
+		marginHorizontal: 15,
+		backgroundColor: COLORS.orange,
+		paddingVertical: 3,
+		paddingHorizontal: 5,
+		fontSize: 9,
+		fontWeight: "bold",
+		color: "#ffffff",
+		borderRadius: 3,
+	},
 	addButton: {
 		position: "absolute",
 		bottom: 30,
@@ -152,6 +217,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
 	beers: state.beers.sort((a, b) => b.createdAt - a.createdAt),
+	loading: state.app.ui.loading,
 });
 
 const mapDispatchToProps = dispatch => {
