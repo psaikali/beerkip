@@ -237,10 +237,6 @@ export const pushAjax = async (type, token, data) => {
  * @param {array} response
  */
 export const pushSuccess = (type, objects, response) => {
-	console.log(type);
-	console.log(objects);
-	console.log(response);
-
 	return {
 		type: PUSH_SUCCESS,
 		objectsType: type,
