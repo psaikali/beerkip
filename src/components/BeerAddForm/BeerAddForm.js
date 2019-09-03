@@ -88,7 +88,6 @@ class BeerAddForm extends Component {
 						component={TextInput}
 						validate={[required, number, positive]}
 						normalize={floatWithPoint}
-						hasNormalize={true}
 						warn={abvWarning}
 					/>
 					<FieldArray
@@ -110,7 +109,6 @@ class BeerAddForm extends Component {
 						component={TextInput}
 						validate={[required, number, positive, rating]}
 						normalize={floatWithPoint}
-						hasNormalize={true}
 					/>
 				</View>
 				<Button full warning rounded onPress={this.props.handleSubmit}>
