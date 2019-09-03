@@ -216,7 +216,15 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-	beers: state.beers.sort((a, b) => b.createdAt - a.createdAt),
+	beers: state.beers
+		.filter(beer => {
+			if (state.app.user && state.app.user.id) {
+				return beer.author === state.app.user.id;
+			} else {
+				return false;
+			}
+		})
+		.sort((a, b) => b.createdAt - a.createdAt),
 	loading: state.app.ui.loading,
 });
 
