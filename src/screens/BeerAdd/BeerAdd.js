@@ -17,6 +17,7 @@ class BeerAdd extends Component {
 			// First, add the beer.
 			this.props.addBeer({
 				uid: uid,
+				author: this.props.user.id,
 				createdAt: Date.now(),
 				editedAt: null,
 				deletedAt: null,
@@ -48,6 +49,10 @@ class BeerAdd extends Component {
 	}
 }
 
+const mapStateToProps = state => ({
+	user: state.app.user,
+});
+
 const mapDispatchToProps = dispatch => {
 	return {
 		addBeer: data => dispatch(addBeer(data)),
@@ -55,6 +60,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps
 )(BeerAdd);

@@ -56,7 +56,8 @@ export const login = (email, password) => {
 					dispatch(
 						loginSuccess({
 							token: response.data.token,
-							//login: response.data.user_login,
+							id: response.data.user_id,
+							login: response.data.user_login,
 							email: response.data.user_email,
 							name: response.data.user_display_name,
 						})
