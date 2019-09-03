@@ -4,7 +4,6 @@ import { Button, Text, Icon, H3, Container, Content } from "native-base";
 import NetInfo from "@react-native-community/netinfo";
 
 import { addBeer } from "../../store/actions/beers";
-import dummyData from "../../utils/dummyData";
 
 import BeerCard from "../../components/BeerCard/BeerCard";
 
@@ -27,15 +26,6 @@ class BeersList extends Component {
 	 */
 	handleAddBeerButtonPress = () => {
 		this.props.navigation.navigate("BeerAdd");
-	};
-
-	/**
-	 * Temporary add fake beers
-	 */
-	handleLoadDummyDataButton = () => {
-		[...dummyData.beers, ...dummyData.beers, ...dummyData.beers].map(beer =>
-			this.props.dispatch(addBeer(beer))
-		);
 	};
 
 	/**
@@ -67,7 +57,8 @@ class BeersList extends Component {
 	 * Display a title before the list of beers, along with a Sync button.
 	 */
 	renderBeersListTitle = () => {
-		const beersTotalCount = this.props.beers.length;
+		const beersTotalCount = this.props.beers.filter(beer => !beer.deleted)
+			.length;
 		const beersToPushCount = this.props.beers.filter(beer => beer.edited)
 			.length;
 
@@ -120,7 +111,8 @@ class BeersList extends Component {
 		return (
 			<Container>
 				<Content>
-					{this.props.beers.length > 0 ? (
+					{this.props.beers.filter(beer => beer && !beer.deleted)
+						.length > 0 ? (
 						<View>
 							{this.renderBeersListTitle()}
 							<FlatList
@@ -153,17 +145,6 @@ class BeersList extends Component {
 								</Text>{" "}
 								button below.
 							</Text>
-							<Button
-								rounded
-								secondary
-								iconLeft
-								dark
-								onPress={this.handleLoadDummyDataButton}
-								style={styles.dummyDataButton}
-							>
-								<Icon name="refresh" />
-								<Text>Load dummy beers</Text>
-							</Button>
 						</ScreenContent>
 					)}
 				</Content>
@@ -209,16 +190,12 @@ const styles = StyleSheet.create({
 		bottom: 30,
 		right: 30,
 	},
-	dummyDataButton: {
-		marginTop: 10,
-		justifyContent: "center",
-	},
 });
 
 const mapStateToProps = state => ({
 	beers: state.beers
 		.filter(beer => {
-			if (state.app.user && state.app.user.id) {
+			if (beer && state.app.user && state.app.user.id) {
 				return beer.author === state.app.user.id;
 			} else {
 				return false;

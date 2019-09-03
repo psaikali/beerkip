@@ -53,21 +53,26 @@ const reducer = (state = initialState, action) => {
 				/**
 				 * Take each item sent back by WordPress and assign the new "syncId" property to it.
 				 */
-				return state.map(item => {
-					const syncedItemData = action.response.synced_data.find(
-						syncedItem => syncedItem.uid === item.uid
-					);
+				return state
+					.map(item => {
+						const syncedItemData = action.response.synced_data.find(
+							syncedItem => item && syncedItem.uid === item.uid
+						);
 
-					if (syncedItemData) {
-						return {
-							...item,
-							edited: false,
-							syncId: syncedItemData.id,
-						};
-					} else {
-						return item;
-					}
-				});
+						if (syncedItemData) {
+							// If user did not ask for the beer deletion, keep it in the state and set the edited: flag to false.
+							if (!item.deleted) {
+								return {
+									...item,
+									edited: false,
+									syncId: syncedItemData.id,
+								};
+							}
+						} else {
+							return item;
+						}
+					})
+					.filter(beer => beer);
 			}
 
 		default: {

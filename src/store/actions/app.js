@@ -138,7 +138,7 @@ export const push = () => {
 			/**
 			 * Get "fresh" beers (that were created/edited/deleted)
 			 */
-			const beers = getState().beers.filter(beer => beer.edited);
+			const beers = getState().beers.filter(beer => beer && beer.edited);
 			// const photos = getState().photos.filter(photo => photo.edited);
 
 			if (beers.length > 0) {
@@ -182,9 +182,7 @@ export const push = () => {
 				 * We had a problem with data synchronization (connectivity issue?).
 				 */
 				dispatch(
-					pushError(
-						`A problem occured during data synchronization: ${errorData.error.response.data.message}.`
-					)
+					pushError(`A problem occured during data synchronization.`)
 				);
 			}
 		}
