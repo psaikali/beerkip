@@ -28,6 +28,7 @@ const reducer = (state = initialState, action) => {
 				if (beer.uid === action.uid) {
 					return {
 						...beer,
+						edited: true,
 						deleted: true,
 						deletedAt: Date.now(),
 					};
