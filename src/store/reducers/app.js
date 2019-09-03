@@ -4,6 +4,7 @@ import {
 	LOGOUT,
 	START_LOADING,
 	STOP_LOADING,
+	PUSH_ERROR,
 	CLEAR_MESSAGES,
 } from "../actions/actionTypes";
 
@@ -54,6 +55,19 @@ const reducer = (state = initialState, action) => {
 					messages: {
 						...state.ui.messages,
 						login: action.message,
+					},
+				},
+			};
+		}
+
+		case PUSH_ERROR: {
+			return {
+				...state,
+				ui: {
+					...state.ui,
+					messages: {
+						...state.ui.messages,
+						push: action.message,
 					},
 				},
 			};

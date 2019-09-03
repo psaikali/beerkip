@@ -1,4 +1,9 @@
-import { ADD_BEER, EDIT_BEER, DELETE_BEER } from "../actions/actionTypes";
+import {
+	ADD_BEER,
+	EDIT_BEER,
+	DELETE_BEER,
+	PUSH_SUCCESS,
+} from "../actions/actionTypes";
 
 const initialState = [];
 
@@ -37,6 +42,33 @@ const reducer = (state = initialState, action) => {
 				}
 			});
 		}
+
+		case PUSH_SUCCESS:
+			if (
+				action.objectsType !== "beers" ||
+				!action.response.synced_data
+			) {
+				return state;
+			} else {
+				/**
+				 * Take each item sent back by WordPress and assign the new "syncId" property to it.
+				 */
+				return state.map(item => {
+					const syncedItemData = action.response.synced_data.find(
+						syncedItem => syncedItem.uid === item.uid
+					);
+
+					if (syncedItemData) {
+						return {
+							...item,
+							edited: false,
+							syncId: syncedItemData.id,
+						};
+					} else {
+						return item;
+					}
+				});
+			}
 
 		default: {
 			return state;
