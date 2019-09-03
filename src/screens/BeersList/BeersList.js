@@ -1,18 +1,6 @@
 import React, { Component } from "react";
 import { View, FlatList, StyleSheet } from "react-native";
-import {
-	Button,
-	Text,
-	Icon,
-	ListItem,
-	Thumbnail,
-	H3,
-	Left,
-	Body,
-	Right,
-	Container,
-	Content,
-} from "native-base";
+import { Button, Text, Badge, Icon, H3, Container, Content } from "native-base";
 
 import { addBeer } from "../../store/actions/beers";
 import dummyData from "../../utils/dummyData";
@@ -21,6 +9,7 @@ import BeerCard from "../../components/BeerCard/BeerCard";
 
 import { connect } from "react-redux";
 import COLORS from "../../utils/colors";
+import { push } from "../../store/actions/app";
 
 class BeersList extends Component {
 	/**
@@ -39,28 +28,66 @@ class BeersList extends Component {
 		);
 	};
 
+	/**
+	 * We want to possibly send data on the first load of the screen
+	 */
+	componentDidMount() {
+		this.props.push();
+	}
+
+	/**
+	 * We also want to send data anytime we got new/edited/deleted beers (this.props.beers comes from our connected Redux store)
+	 */
+	componentDidUpdate() {
+		this.props.push();
+	}
+
+	renderBeersListTitle = () => {
+		const beersTotalCount = this.props.beers.length;
+		const beersToPushCount = this.props.beers.filter(beer => beer.edited)
+			.length;
+
+		return (
+			<View style={styles.beersListTitle}>
+				<H3>
+					{beersTotalCount} beer{beersTotalCount > 1 ? "s" : ""}
+				</H3>
+				{beersToPushCount > 0 && (
+					<Badge warning>
+						<Text>{beersToPushCount} to sync</Text>
+					</Badge>
+				)}
+			</View>
+		);
+	};
+
 	render() {
 		return (
 			<Container>
 				<Content>
 					{this.props.beers.length > 0 ? (
-						<FlatList
-							data={this.props.beers}
-							keyExtractor={(beer, index) => beer.uid}
-							renderItem={({ item }) => (
-								<BeerCard
-									item={item}
-									onPress={() => {
-										this.props.navigation.navigate(
-											"BeerDetails",
-											{
-												beer: item,
-											}
-										);
-									}}
-								/>
-							)}
-						/>
+						<View>
+							{this.renderBeersListTitle()}
+							<FlatList
+								data={this.props.beers.filter(
+									beer => !beer.deleted
+								)}
+								keyExtractor={(beer, index) => beer.uid}
+								renderItem={({ item }) => (
+									<BeerCard
+										item={item}
+										onPress={() => {
+											this.props.navigation.navigate(
+												"BeerDetails",
+												{
+													beer: item,
+												}
+											);
+										}}
+									/>
+								)}
+							/>
+						</View>
 					) : (
 						<ScreenContent>
 							<H3>Your beer shelf is empty!</H3>
@@ -102,6 +129,16 @@ class BeersList extends Component {
 }
 
 const styles = StyleSheet.create({
+	beersListTitle: {
+		marginHorizontal: 15,
+		marginTop: 25,
+		marginBottom: 5,
+		flexDirection: "row",
+		justifyContent: "space-between",
+	},
+	beersToPushCount: {
+		fontSize: 10,
+	},
 	addButton: {
 		position: "absolute",
 		bottom: 30,
@@ -114,9 +151,16 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-	beers: state.beers
-		.sort((a, b) => b.createdAt - a.createdAt)
-		.filter(beer => !beer.deleted),
+	beers: state.beers.sort((a, b) => b.createdAt - a.createdAt),
 });
 
-export default connect(mapStateToProps)(BeersList);
+const mapDispatchToProps = dispatch => {
+	return {
+		push: () => dispatch(push()),
+	};
+};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(BeersList);
