@@ -3,6 +3,7 @@ import axios from "axios";
 import {
 	PUSH_SUCCESS,
 	PUSH_ERROR,
+	PULL_SUCCESS,
 	LOGIN_SUCCESS,
 	LOGIN_ERROR,
 	LOGOUT,
@@ -40,7 +41,7 @@ export const login = (email, password) => {
 
 		axios
 			.post(
-				"http://192.168.1.68:3000/wp-json/jwt-auth/v1/token",
+				"https://beerkip.mosaika.fr/wp-json/jwt-auth/v1/token",
 				{
 					username: email,
 					password: password,
@@ -204,7 +205,7 @@ export const pushAjax = async (type, token, data) => {
 	} else {
 		return axios
 			.post(
-				"http://192.168.1.68:3000/wp-json/beerkip/v1/push",
+				"https://beerkip.mosaika.fr/wp-json/beerkip/v1/push",
 				{
 					type,
 					data,
@@ -260,7 +261,7 @@ export const pushError = message => {
 export const validateLoginAjax = async token => {
 	return axios
 		.post(
-			"http://192.168.1.68:3000/wp-json/jwt-auth/v1/token/validate",
+			"https://beerkip.mosaika.fr/wp-json/jwt-auth/v1/token/validate",
 			{},
 			{
 				headers: { Authorization: `Bearer ${token}` },
@@ -285,4 +286,102 @@ export const validateLoginAjax = async token => {
 				});
 			}
 		);
+};
+
+/**
+ * Pull data from the server, to populate user local app with previously-created data.
+ */
+export const pullData = () => {
+	return async (dispatch, getState) => {
+		dispatch(startLoading());
+
+		try {
+			const userId = getState().app.user.id;
+			const token = getState().app.user.token;
+
+			/**
+			 * Check our user authentification validity first.
+			 */
+			const validateLoginCall = await validateLoginAjax(token);
+
+			/**
+			 * Get latest beers for current user
+			 */
+			const beersCall = await pullAjax("beers", userId, token);
+			dispatch(pullSuccess("beers", beersCall.data));
+
+			/**
+			 * When we get there, everything went well, we can finish our job.
+			 */
+			dispatch(stopLoading());
+		} catch (errorData) {
+			dispatch(stopLoading());
+
+			if (errorData.type === "validateLogin") {
+				/**
+				 * We had a problem validating the user auth token, let's logout and display a message.
+				 */
+				dispatch(logout());
+				dispatch(
+					loginError(
+						"Your user authentification has expired, please log in."
+					)
+				);
+			} else {
+				/**
+				 * We had a problem with pulling data (connectivity issue?).
+				 */
+				dispatch(
+					pushError(
+						`A problem occured when trying to sync your distant data locally.`
+					)
+				);
+			}
+		}
+	};
+};
+
+/**
+ * Make the "Push" AJAX request and return an axios Promise.
+ * @param {string} type
+ * @param {integer} userId
+ * @param {string} token
+ */
+export const pullAjax = async (type, userId, token) => {
+	return axios
+		.post(
+			"https://beerkip.mosaika.fr/wp-json/beerkip/v1/pull",
+			{
+				type,
+				user_id: userId,
+			},
+			{
+				headers: { Authorization: `Bearer ${token}` },
+				timeout: 20000,
+			}
+		)
+		.then(
+			response => {
+				return Promise.resolve(response);
+			},
+			error => {
+				return Promise.reject({
+					type,
+					error,
+				});
+			}
+		);
+};
+
+/**
+ * When a Push action is successful, we need to update our store to populate it with data.
+ * @param {string} type
+ * @param {array} response
+ */
+export const pullSuccess = (type, response) => {
+	return {
+		type: PULL_SUCCESS,
+		objectsType: type,
+		response,
+	};
 };

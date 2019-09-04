@@ -27,6 +27,7 @@ export const LOGIN_ERROR = "LOGIN_ERROR";
 export const LOGOUT = "LOGOUT";
 export const PUSH_SUCCESS = "PUSH_SUCCESS";
 export const PUSH_ERROR = "PUSH_ERROR";
+export const PULL_SUCCESS = "PULL_SUCCESS";
 
 //=================
 //
