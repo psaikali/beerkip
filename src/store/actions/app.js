@@ -40,7 +40,7 @@ export const login = (email, password) => {
 
 		axios
 			.post(
-				"http://192.168.1.68:3000/wp-json/jwt-auth/v1/token",
+				"https://beerkip.mosaika.fr/wp-json/jwt-auth/v1/token",
 				{
 					username: email,
 					password: password,
@@ -204,7 +204,7 @@ export const pushAjax = async (type, token, data) => {
 	} else {
 		return axios
 			.post(
-				"http://192.168.1.68:3000/wp-json/beerkip/v1/push",
+				"https://beerkip.mosaika.fr/wp-json/beerkip/v1/push",
 				{
 					type,
 					data,
@@ -260,7 +260,7 @@ export const pushError = message => {
 export const validateLoginAjax = async token => {
 	return axios
 		.post(
-			"http://192.168.1.68:3000/wp-json/jwt-auth/v1/token/validate",
+			"https://beerkip.mosaika.fr/wp-json/jwt-auth/v1/token/validate",
 			{},
 			{
 				headers: { Authorization: `Bearer ${token}` },
