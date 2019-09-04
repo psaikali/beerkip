@@ -29,6 +29,8 @@ target 'beerkip' do
 
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
 
+  pod 'CodePush', :path => '../node_modules/react-native-code-push'
+
   target 'beerkipTests' do
     inherit! :search_paths
     # Pods for testing
