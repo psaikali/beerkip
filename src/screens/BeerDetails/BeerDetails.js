@@ -7,6 +7,8 @@ import COLORS from "../../utils/colors";
 import { deleteBeer } from "../../store/actions/beers";
 import ScreenContent from "../../components/ScreenContent/ScreenContent";
 
+import dummyBeerImage from "../../assets/images/dummy/beer3.png";
+
 class BeerDetails extends Component {
 	constructor(props) {
 		super(props);
@@ -108,7 +110,7 @@ class BeerDetails extends Component {
 			<View style={styles.contentWrapper}>
 				<View style={styles.heroWrapper}>
 					<ImageBackground
-						source={beer.photo}
+						source={beer.photo || dummyBeerImage}
 						style={styles.heroBackground}
 						imageStyle={styles.heroBackgroundImage}
 						resizeMode="cover"
