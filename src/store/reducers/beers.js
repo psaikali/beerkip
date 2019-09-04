@@ -3,6 +3,7 @@ import {
 	EDIT_BEER,
 	DELETE_BEER,
 	PUSH_SUCCESS,
+	PULL_SUCCESS,
 } from "../actions/actionTypes";
 
 const initialState = [];
@@ -73,6 +74,47 @@ const reducer = (state = initialState, action) => {
 						}
 					})
 					.filter(beer => beer);
+			}
+
+		case PULL_SUCCESS:
+			if (action.objectsType !== "beers") {
+				return state;
+			} else {
+				// Get UIDs of new items
+				const newItems = action.response.data;
+				const newItemsUids = newItems.map(newItem => newItem.uid);
+
+				// Remove existing UIDs from our device
+				const localItemsWithoutNonEditedDuplicates = state.filter(
+					existingItem => {
+						// Do we already have the current local item in the payload coming from server?
+						const itemInNewPayload = newItemsUids.includes(
+							existingItem.uid
+						);
+
+						if (itemInNewPayload) {
+							// Item is on the device and has been edited, so we probably want to keep it.
+							if (existingItem.edited) {
+								return true;
+							} else {
+								return false;
+							}
+						}
+
+						return true;
+					}
+				);
+
+				// Mix our new items with non-edited (non-synced yet) items
+				let newState = [
+					...newItems,
+					...localItemsWithoutNonEditedDuplicates,
+				];
+
+				// Order by creation date.
+				newState.sort((a, b) => b.createdAt - a.createdAt);
+
+				return newState;
 			}
 
 		default: {

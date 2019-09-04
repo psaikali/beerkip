@@ -15,7 +15,7 @@ import LoginForm from "../../components/LoginForm/LoginForm";
 
 import logo from "../../assets/images/beerkip-logo-white.png";
 import COLORS from "../../utils/colors";
-import { login, clearMessages } from "../../store/actions/app";
+import { login, clearMessages, pullData } from "../../store/actions/app";
 
 class Login extends Component {
 	handleLoginFormSubmit = values => {
@@ -30,6 +30,7 @@ class Login extends Component {
 		if (user && user.token) {
 			this.props.clearMessages();
 			this.props.navigation.navigate("BeersList");
+			this.props.pullData();
 		}
 	}
 
@@ -145,6 +146,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 		login: (email, password) => dispatch(login(email, password)),
 		clearMessages: () => dispatch(clearMessages()),
+		pullData: () => dispatch(pullData()),
 	};
 };
 

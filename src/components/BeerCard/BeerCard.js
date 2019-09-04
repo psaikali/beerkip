@@ -2,10 +2,12 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { ListItem, Icon, Body, Left, Right, Thumbnail } from "native-base";
 
+import dummyBeerImage from "../../assets/images/dummy/beer3.png";
+
 export default BeerCard = ({ item, onPress }) => (
 	<ListItem thumbnail key={item.uid} button onPress={onPress}>
 		<Left>
-			<Thumbnail square source={item.photo} />
+			<Thumbnail square source={item.photo || dummyBeerImage} />
 			{item.edited && (
 				<View style={styles.beerNeedsSync}>
 					<Icon name="refresh" style={styles.beerNeedsSyncIcon} />
