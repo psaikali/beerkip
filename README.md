@@ -16,7 +16,7 @@ This is the <strong>mobile application repo</strong> for a React Native app full
 </p>
 
 ## About the mobile app
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Product Name Screen Shot][product-screenshot]](https://share.getcloudapp.com/E0uPvnkn)
 
 [**See a quick demo video »**](https://share.getcloudapp.com/E0uPvnkn)
 
@@ -24,17 +24,15 @@ This React Native app is a demo concept developed for demonstration purpose. It 
 
 To see the WordPress plugin in charge of intercepting AJAX requests and synchronizing data, [visit the `beerkip-wp` repo](https://github.com/psaikali/beerkip-wp/).
 
+### Use the app
+1. Download the [Android .apk](https://mosaika.fr/downloads/beerkip-v1.apk) and install the app.
+2. You can login by using the `beerkip` login and `beerkip` password to browse, create or edit your own beers.
+
 ### Features
 * User authentication is done with the help of the [JWT Authentication for WP REST API plugin by Enrique Chavez](https://wordpress.org/plugins/jwt-authentication-for-wp-rest-api/).
 * Once logged in, you can access your list of favorites beers.
 * You can use a form to create a new beer. 
 * Data synchronization (push and pull) is fully integrated with a WordPress back-end (<a href="https://github.com/psaikali/beerkip-wp/">repo is here</a>).
-
-[product-screenshot]: https://p156.p1.n0.cdn.getcloudapp.com/items/QwuQr0Pz/Screen+Recording+2019-11-15+at+04.33+PM.gif?v=3a8c3f1d0db5ace5e164d27be04433fa
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
-[linkedin-url]: https://www.linkedin.com/in/psaikali/
-[twitter-shield]: https://img.shields.io/twitter/url/http/shields.io.svg?style=social
-[twitter-url]: https://twitter.com/psaikali
 
 ### Branches
 You'll find a total of (at least) [7 branches](https://github.com/psaikali/beerkip/branches) on this repo, **each branch being related to a specific article tutorial** on my blog.
@@ -47,3 +45,9 @@ You'll find a total of (at least) [7 branches](https://github.com/psaikali/beerk
 5. create a repeatable field in the beer reation form
 6. implement the user authentication logic on the login form, integrated with WordPress
 7. synchronize beers data with the WordPress database (sending new data / receiving existing data)
+
+[product-screenshot]: https://mosaika.fr/downloads/beerkip.gif
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
+[linkedin-url]: https://www.linkedin.com/in/psaikali/
+[twitter-shield]: https://img.shields.io/twitter/url/http/shields.io.svg?style=social
+[twitter-url]: https://twitter.com/psaikali
