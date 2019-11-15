@@ -15,7 +15,7 @@ This is the <strong>mobile application repo</strong> for a React Native app full
     <a href="https://mosaika.fr/appli-mobile-react-native-wordpress/"><strong>Read the tutorial (7 articles in French) »</strong></a>
 </p>
 
-## About the mobile app
+## About the app
 [![Product Name Screen Shot][product-screenshot]](https://share.getcloudapp.com/E0uPvnkn)
 
 [**See a quick demo video »**](https://share.getcloudapp.com/E0uPvnkn)
@@ -33,6 +33,16 @@ To see the WordPress plugin in charge of intercepting AJAX requests and synchron
 * Once logged in, you can access your list of favorites beers.
 * You can use a form to create a new beer. 
 * Data synchronization (push and pull) is fully integrated with a WordPress back-end (<a href="https://github.com/psaikali/beerkip-wp/">repo is here</a>).
+
+### Installation
+
+This app is using React Native v0.60. To install it and use it locally :
+
+1. Clone this repo.
+2. Run `npm install` to install dependencies.
+3. Launch your emulator/connect your device and run `react-native run-android`.
+
+_Note: the iOS links have not been set up, you might need to create them properly to make it work on iPhone devices._
 
 ### Branches
 You'll find a total of (at least) [7 branches](https://github.com/psaikali/beerkip/branches) on this repo, **each branch being related to a specific article tutorial** on my blog.
