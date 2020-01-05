@@ -16,9 +16,9 @@ This is the <strong>mobile application repo</strong> for a React Native app full
 </p>
 
 ## About the app
-[![Product Name Screen Shot][product-screenshot]](https://share.getcloudapp.com/E0uPvnkn)
+[![Product Name Screen Shot][product-screenshot]](https://media.mosaika.fr/QwuQr0Pz)
 
-[**See a quick demo video »**](https://share.getcloudapp.com/E0uPvnkn)
+[**See a quick demo video »**](https://media.mosaika.fr/QwuQr0Pz)
 
 This React Native app is a demo concept developed for demonstration purpose. It is made to store a list of favorite beers, create new beers and delete beers and synchronize them with the WordPress database.
 
